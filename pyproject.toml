@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "notears-analysis"
+version = "0.1.0"
+description = ""
+authors = ["Itsuki Kuwahara <248c117c@stu.kobe-u.ac.jp>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.11"
+causalnex = "^0.12.1"
+openpyxl = "^3.1.5"
+japanize-matplotlib = "^1.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
