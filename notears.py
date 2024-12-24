@@ -64,15 +64,16 @@ all_data.reset_index(drop=True, inplace=True)
 # 分析するデータを用意
 # input_data = all_data[["若年層人口","一般診療所数/可住地面積","一般診療所数/10万人","自市区町村で従業・通学している人口","第三次産業就業者","児童福祉費","小学校教員数"]]
 features = ["若年層人口","一般診療所数/可住地面積","一般診療所数/10万人","自市区町村で従業・通学している人口","第三次産業就業者","児童福祉費","小学校教員数"]
+all_features = list(df00.columns)
 
 # 説明変数：00→05、目的変数：00→05
-df1 = df00_05[features]
+df1 = df00_05[all_features]
 # 説明変数：00→05、目的変数：05→10
 temp = df1.drop(["若年層人口"], axis=1)
 df2 = pd.concat([temp, df05_10[["若年層人口"]]], axis=1) 
 # 説明変数：00→05、目的変数：05→10
 df3 = pd.concat([temp, df10_15[["若年層人口"]]], axis=1)
 
-structure_learning(df1, "00_05_", 0.5)
+structure_learning(df1, "00_05", 0.5)
 # structure_learning(df2, "05_10_", 0.5)
 # structure_learning(df3, "10_15_", 0.5)
