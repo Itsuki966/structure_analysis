@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import causalnex as nx
 import matplotlib.pyplot as plt
@@ -13,12 +14,17 @@ def calc_changing_rate(df_prev, df):
     df_cr = (df - df_prev + 0.01) / (df_prev + 0.01)
     return df_cr
 
+def scaler(x):
+    return (2 / (1 + math.exp(-2*x))) - 1
+    
 def structure_learning(df, object_year, threshold):
     print(("Scaling..."))
-    scaler = StandardScaler()
-    input_tr = scaler.fit_transform(df)
+    # scaler = StandardScaler()
+    # input_tr = scaler.fit_transform(df)
     
-    input_tr = pd.DataFrame(input_tr, columns=df.columns)
+    # input_tr = pd.DataFrame(input_tr, columns=df.columns)
+    input_tr = df.applymap(scaler)
+    print(input_tr.info())
 
     print("structure learning...")
     sm = from_pandas(input_tr)
@@ -62,11 +68,11 @@ features = ["若年層人口","一般診療所数/可住地面積","一般診療
 # 説明変数：00→05、目的変数：00→05
 df1 = df00_05[features]
 # 説明変数：00→05、目的変数：05→10
-temp = df00_05.drop(["若年層人口"], axis=1)
+temp = df1.drop(["若年層人口"], axis=1)
 df2 = pd.concat([temp, df05_10[["若年層人口"]]], axis=1) 
 # 説明変数：00→05、目的変数：05→10
 df3 = pd.concat([temp, df10_15[["若年層人口"]]], axis=1)
 
 structure_learning(df1, "00_05_", 0.5)
-structure_learning(df2, "05_10_", 0.5)
-structure_learning(df3, "10_15_", 0.5)
+# structure_learning(df2, "05_10_", 0.5)
+# structure_learning(df3, "10_15_", 0.5)
