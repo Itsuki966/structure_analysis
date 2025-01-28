@@ -58,8 +58,10 @@ df05_10 = calc_changing_rate(df05, df10)
 df10_15 = calc_changing_rate(df10, df15)
 
 # データの結合
-all_data = pd.concat([data_0005, data_0510, data_1015])
-all_data.reset_index(drop=True, inplace=True)
+# all_data = pd.concat([data_0005, data_0510, data_1015])
+# all_data.reset_index(drop=True, inplace=True)
+all_df = pd.concat([df00_05, df05_10, df10_15])
+all_df.dropna(inplace=True)
 
 # 分析するデータを用意
 # input_data = all_data[["若年層人口","一般診療所数/可住地面積","一般診療所数/10万人","自市区町村で従業・通学している人口","第三次産業就業者","児童福祉費","小学校教員数"]]
@@ -74,6 +76,6 @@ df2 = pd.concat([temp, df05_10[["若年層人口"]]], axis=1)
 # 説明変数：00→05、目的変数：05→10
 df3 = pd.concat([temp, df10_15[["若年層人口"]]], axis=1)
 
-structure_learning(df1, "00_05", 0.5)
+structure_learning(all_df, "all", 0.5)
 # structure_learning(df2, "05_10_", 0.5)
 # structure_learning(df3, "10_15_", 0.5)
